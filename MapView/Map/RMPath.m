@@ -40,6 +40,7 @@
 @synthesize enableRotation;
 @synthesize lineDashPhase;
 @synthesize scaleLineDash;
+@synthesize mapContents;
 
 #define kDefaultLineWidth 2
 
