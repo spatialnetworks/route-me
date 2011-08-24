@@ -26,4 +26,6 @@
 - (id)initWithLocation:(float)x y:(float)y;
 - (void)setLocation:(float)x y:(float)y;
 - (void)setTitles:(NSString *)title subtitle:(NSString *)subtitle;
+- (void)configureSubviews;
+
 @end

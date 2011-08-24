@@ -784,31 +784,34 @@
         float x = [self.contents.markerManager screenCoordinatesForMarker:annotationMarker].x;
         float y = [self.contents.markerManager screenCoordinatesForMarker:annotationMarker].y;
         
-        //NSLog(@"SCREEN %f, %f", x, y);
-        //NSLog(@"position: %@", NSStringFromCGPoint(annotationMarker.position));
-        
-        //annotationView.layer.position = annotationMarker.position;
-        [annotationView setLocation:annotationMarker.position.x y:annotationMarker.position.y];
+        [annotationView setLocation:x y:y];
     }
 }
 
 - (void)hideAnnotationView:(BOOL)animated {
-    if (animated) {        
-        [UIView beginAnimations:nil context:nil];
-        [UIView setAnimationDuration:0.2];
-        [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
+    if (annotationVisible) {
+        if (animated) {        
+            
+            [UIView animateWithDuration:0.2 
+                                  delay:0.0 
+                                options:UIViewAnimationCurveEaseInOut 
+                             animations:
+             ^{
+                annotationView.alpha = 0.0;
+                annotationView.transform = CGAffineTransformMakeTranslation(0.0, 30.0);
+             }
+                             completion:^(BOOL finished) {
+                                 annotationView.transform = CGAffineTransformIdentity;
+                                 
+            }];
+        } else {
+            annotationView.alpha = 0.0;
+        }
         
-        annotationView.alpha = 0.0;
-        annotationView.transform = CGAffineTransformMakeTranslation(0.0, 30.0);
+        annotationMarker = nil;
         
-        [UIView commitAnimations];
-    } else {
-        annotationView.alpha = 0.0;
+        annotationVisible = NO;
     }
-    
-    annotationMarker = nil;
-    
-    annotationVisible = NO;
 }
 
 - (void)showAnnotationView:(RMMarker *)marker title:(NSString *)title subtitle:(NSString *)subtitle animated:(BOOL)animated {
@@ -819,15 +822,12 @@
     x = [self.contents.markerManager screenCoordinatesForMarker:marker].x;
     y = [self.contents.markerManager screenCoordinatesForMarker:marker].y;
     
-    
     if (annotationView == nil) {
         annotationView = [[RMAnnotationView alloc] initWithLocation:x y:y];
         [self addSubview:annotationView];
     } else {
-        [annotationView setLocation:annotationMarker.position.x y:annotationMarker.position.y];
+        [annotationView setLocation:x y:y];
     }
-    
-    [self positionAnnotationView];
     
     annotationView.alpha = 1.0;
     
