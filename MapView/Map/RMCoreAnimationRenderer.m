@@ -105,7 +105,7 @@
     CATransition *animation = [CATransition animation];
 
     animation.type = kCATransitionFade;
-    animation.duration = 0.1;
+    animation.duration = 0.3;
     
     [layer addAnimation:animation forKey:@"sublayers"];
     

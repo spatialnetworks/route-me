@@ -46,7 +46,7 @@
 			  self, tile.zoom, self.minZoom, self.maxZoom);
 	return [NSString stringWithFormat:@"http://otile1.mqcdn.com/tiles/1.0.0/osm/%d/%d/%d.png", tile.zoom, tile.x, tile.y];
 }
-
+	
 -(NSString*) uniqueTilecacheKey
 {
 	return @"MapQuestOSM";

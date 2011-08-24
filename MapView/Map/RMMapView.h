@@ -108,6 +108,7 @@ typedef struct {
 } RMGestureDetails;
 
 @class RMMapContents;
+@class RMAnnotationView;
 
 /*! 
  \brief Wrapper around RMMapContents for the iPhone.
@@ -155,6 +156,10 @@ typedef struct {
 	RMProjectedPoint NEconstraint, SWconstraint;
 	
 	BOOL _contentsIsSet; // "contents" must be set, but is initialized lazily to allow apps to override defaults in -awakeFromNib
+    
+    BOOL annotationVisible;
+    RMMarker *annotationMarker;
+    RMAnnotationView* annotationView;
 }
 
 /// Any other functionality you need to manipulate the map you can access through this
@@ -196,4 +201,10 @@ typedef struct {
 - (void)setRotation:(CGFloat)angle;
 
 
+//SNI Additions
+- (void)showAnnotationView:(RMMarker *)marker title:(NSString *)title subtitle:(NSString *)subtitle animated:(BOOL)animated;
+- (void)hideAnnotationView:(BOOL)animated;
+- (BOOL)isAnnotationVisible;
+- (RMMarker *)activeAnnotationMarker;
+- (void)positionAnnotationView;
 @end

@@ -35,6 +35,7 @@
 #import "RMMarker.h"
 #import "RMProjection.h"
 #import "RMMarkerManager.h"
+#import "RMAnnotationView.h"
 
 @interface RMMapView (PrivateMethods)
 // methods for post-touch deceleration, ala UIScrollView
@@ -471,6 +472,9 @@
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
 	UITouch *touch = [[touches allObjects] objectAtIndex:0];
+    
+    [self positionAnnotationView];
+    
 	//Check if the touch hit a RMMarker subclass and if so, forward the touch event on
 	//so it can be handled there
 	id furthestLayerDown = [self.contents.overlay hitTest:[touch locationInView:self]];
@@ -522,6 +526,8 @@
 {
 	UITouch *touch = [[touches allObjects] objectAtIndex:0];
 	
+    [self positionAnnotationView];
+    
 	//Check if the touch hit a RMMarker subclass and if so, forward the touch event on
 	//so it can be handled there
 	id furthestLayerDown = [self.contents.overlay hitTest:[touch locationInView:self]];
@@ -609,16 +615,19 @@
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
 {
 	UITouch *touch = [[touches allObjects] objectAtIndex:0];
-	
+
+    
 	//Check if the touch hit a RMMarker subclass and if so, forward the touch event on
 	//so it can be handled there
 	id furthestLayerDown = [self.contents.overlay hitTest:[touch locationInView:self]];
 	if ([[furthestLayerDown class]isSubclassOfClass: [RMMarker class]]) {
 		if ([furthestLayerDown respondsToSelector:@selector(touchesMoved:withEvent:)]) {
 			[furthestLayerDown performSelector:@selector(touchesMoved:withEvent:) withObject:touches withObject:event];
+            
 			return;
 		}
 	}
+    
 	
 	CALayer* hit = [self.contents.overlay hitTest:[touch locationInView:self]];
 //	RMLog(@"LAYER of type %@",[hit description]);
@@ -671,6 +680,8 @@
 		}
 	}
 	
+    [self positionAnnotationView];
+    
 	lastGesture = newGesture;
 	
 	[self delayedResumeExpensiveOperations];
@@ -692,6 +703,8 @@
 }
 
 - (void)incrementDeceleration:(NSTimer *)timer {
+    [self positionAnnotationView];
+    
 	if (ABS(_decelerationDelta.width) < kMinDecelerationDelta && ABS(_decelerationDelta.height) < kMinDecelerationDelta) {
 		[self stopDeceleration];
 
@@ -752,6 +765,121 @@
 	[CATransaction commit];
 
  	if (_delegateHasAfterMapRotate) [delegate afterMapRotate: self toAngle: rotation];
+}
+
+
+
+
+
+
+
+
+
+
+//SNI Additions
+
+
+- (void)positionAnnotationView {
+    if (annotationMarker && annotationView) {
+        float x = [self.contents.markerManager screenCoordinatesForMarker:annotationMarker].x;
+        float y = [self.contents.markerManager screenCoordinatesForMarker:annotationMarker].y;
+        
+        //NSLog(@"SCREEN %f, %f", x, y);
+        //NSLog(@"position: %@", NSStringFromCGPoint(annotationMarker.position));
+        
+        //annotationView.layer.position = annotationMarker.position;
+        [annotationView setLocation:annotationMarker.position.x y:annotationMarker.position.y];
+    }
+}
+
+- (void)hideAnnotationView:(BOOL)animated {
+    if (animated) {        
+        [UIView beginAnimations:nil context:nil];
+        [UIView setAnimationDuration:0.2];
+        [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
+        
+        annotationView.alpha = 0.0;
+        annotationView.transform = CGAffineTransformMakeTranslation(0.0, 30.0);
+        
+        [UIView commitAnimations];
+    } else {
+        annotationView.alpha = 0.0;
+    }
+    
+    annotationMarker = nil;
+    
+    annotationVisible = NO;
+}
+
+- (void)showAnnotationView:(RMMarker *)marker title:(NSString *)title subtitle:(NSString *)subtitle animated:(BOOL)animated {
+    float x, y;
+    
+    annotationMarker = marker;
+    
+    x = [self.contents.markerManager screenCoordinatesForMarker:marker].x;
+    y = [self.contents.markerManager screenCoordinatesForMarker:marker].y;
+    
+    
+    if (annotationView == nil) {
+        annotationView = [[RMAnnotationView alloc] initWithLocation:x y:y];
+        [self addSubview:annotationView];
+    } else {
+        [annotationView setLocation:annotationMarker.position.x y:annotationMarker.position.y];
+    }
+    
+    [self positionAnnotationView];
+    
+    annotationView.alpha = 1.0;
+    
+    [annotationView setTitles:title subtitle:subtitle];
+    
+    
+    if (animated) {
+        annotationView.alpha = 0.0;
+        annotationView.transform = CGAffineTransformScale(CGAffineTransformMakeTranslation(0, 30.0), 0.01, 0.01);
+        
+        float burstStep1 = 1.05;
+        float burstStep2 = 0.97;
+        float burstStepDuration = 0.08;
+        
+        [UIView animateWithDuration:0.15 delay:0.0 options:UIViewAnimationOptionCurveEaseIn animations:^{
+            annotationView.alpha = 1.0;
+            
+            annotationView.transform = CGAffineTransformMakeScale(burstStep1, burstStep1);
+        }
+                         completion:^(BOOL finished) {
+                             
+                             [UIView animateWithDuration:burstStepDuration delay:0.0 options:UIViewAnimationOptionCurveEaseIn animations:^{
+                                 annotationView.transform = CGAffineTransformMakeScale(burstStep2, burstStep2);
+                             }
+                                              completion:^(BOOL finished) {
+                                                  
+                                                  [UIView animateWithDuration:burstStepDuration delay:0.0 options:UIViewAnimationOptionCurveEaseIn animations:^{
+                                                      annotationView.transform = CGAffineTransformIdentity;
+                                                  }
+                                                                   completion:^(BOOL finished) {
+
+                                                                       
+                                                                   }];
+                                                  
+                                              }];
+                             
+                             
+                         }];
+        
+    }
+    
+    annotationVisible = YES;
+    
+}
+
+- (BOOL)isAnnotationVisible {
+    return annotationVisible;
+}
+
+
+- (RMMarker *)activeAnnotationMarker {
+    return annotationMarker;
 }
 
 @end

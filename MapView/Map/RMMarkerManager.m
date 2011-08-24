@@ -33,6 +33,7 @@
 @implementation RMMarkerManager
 
 @synthesize contents;
+@synthesize userDotLayers;
 
 - (id)initWithContents:(RMMapContents *)mapContents
 {
@@ -41,6 +42,10 @@
 	
 	contents = mapContents;
 	
+    NSMutableArray *array = [[NSMutableArray alloc] init];
+    self.userDotLayers = array;
+    [array release];
+    
 	rotationTransform = CGAffineTransformIdentity; 
 	
 	return self;
@@ -48,6 +53,7 @@
 
 - (void)dealloc
 {
+    [self.userDotLayers release];
 	contents = nil;
 	[super dealloc];
 }
@@ -95,6 +101,12 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark 
 #pragma mark Marker information
+
+- (NSArray *)markersWithUserDotExcluded{
+    NSMutableArray *array = [NSMutableArray arrayWithArray:[self markers]];
+    [array removeObjectsInArray:(NSArray *)self.userDotLayers];
+    return array;
+}
 
 - (NSArray *)markers
 {
