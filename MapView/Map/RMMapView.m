@@ -331,7 +331,7 @@
 			float metersPerPixel=mtsp.metersPerPixel;
 			CGRect screenBounds=[mtsp screenBounds];
 			
-			//tjis is copied from [RMMercatorToScreenBounds zoomScreenByFactor]
+			//this is copied from [RMMercatorToScreenBounds zoomScreenByFactor]
 			// First we move the origin to the pivot...
 			origin.easting += center.x * metersPerPixel;
 			origin.northing += (screenBounds.size.height - center.y) * metersPerPixel;
@@ -376,11 +376,15 @@
 
 - (void)animationFinishedWithZoomFactor:(float)zoomFactor near:(CGPoint)p
 {
+    [self positionAnnotationView];
+    
 	if (_delegateHasAfterMapZoomByFactor)
 		[delegate afterMapZoom: self byFactor: zoomFactor near: p];
 }
 
 - (void)animationStepped {
+    [self positionAnnotationView];
+    
 	if (_delegateHasMapViewRegionDidChange) [delegate mapViewRegionDidChange:self];
 }
 
@@ -776,15 +780,20 @@
 
 
 
-//SNI Additions
+//Annotation Additions
+
+//constants used for the bubble animation, you know how we roll
+#define ANNOTATION_BURST_OFFSET_Y  30.00
+#define ANNOTATION_BURST_SCALE1     1.06
+#define ANNOTATION_BURST_SCALE2     0.96
+#define ANNOTATION_BURST_DURATION1  0.15
+#define ANNOTATION_BURST_DURATION2  0.08
+#define ANNOTATION_BURST_DURATION3  0.08
 
 
 - (void)positionAnnotationView {
     if (annotationMarker && annotationView) {
-        float x = [self.contents.markerManager screenCoordinatesForMarker:annotationMarker].x;
-        float y = [self.contents.markerManager screenCoordinatesForMarker:annotationMarker].y;
-        
-        [annotationView setLocation:x y:y];
+        [annotationView moveToPoint:annotationMarker.position];
     }
 }
 
@@ -795,82 +804,74 @@
             [UIView animateWithDuration:0.2 
                                   delay:0.0 
                                 options:UIViewAnimationCurveEaseInOut 
-                             animations:
-             ^{
+                             animations:^
+            {
                 annotationView.alpha = 0.0;
-                annotationView.transform = CGAffineTransformMakeTranslation(0.0, 30.0);
-             }
-                             completion:^(BOOL finished) {
-                                 annotationView.transform = CGAffineTransformIdentity;
-                                 
+                annotationView.transform = CGAffineTransformMakeTranslation(0.0, ANNOTATION_BURST_OFFSET_Y);
+            }
+                             completion:^(BOOL finished) 
+            {
+                annotationView.transform = CGAffineTransformIdentity;
             }];
         } else {
             annotationView.alpha = 0.0;
         }
         
         annotationMarker = nil;
-        
         annotationVisible = NO;
     }
 }
 
-- (void)showAnnotationView:(RMMarker *)marker title:(NSString *)title subtitle:(NSString *)subtitle animated:(BOOL)animated {
-    float x, y;
-    
+
+- (void)showAnnotationView:(RMMarker *)marker 
+                     title:(NSString *)title 
+                  subtitle:(NSString *)subtitle 
+                  animated:(BOOL)animated 
+{
     annotationMarker = marker;
-    
-    x = [self.contents.markerManager screenCoordinatesForMarker:marker].x;
-    y = [self.contents.markerManager screenCoordinatesForMarker:marker].y;
-    
+
     if (annotationView == nil) {
-        annotationView = [[RMAnnotationView alloc] initWithLocation:x y:y];
+        annotationView = [[RMAnnotationView alloc] initWithFrame:CGRectZero];
         [self addSubview:annotationView];
-    } else {
-        [annotationView setLocation:x y:y];
     }
     
+    [annotationView setMarker:marker title:title subtitle:subtitle];
+  
     annotationView.alpha = 1.0;
-    
-    [annotationView setTitles:title subtitle:subtitle];
-    
     
     if (animated) {
         annotationView.alpha = 0.0;
-        annotationView.transform = CGAffineTransformScale(CGAffineTransformMakeTranslation(0, 30.0), 0.01, 0.01);
+        annotationView.transform = CGAffineTransformScale(CGAffineTransformMakeTranslation(0, ANNOTATION_BURST_OFFSET_Y), 0.01, 0.01);
         
-        float burstStep1 = 1.05;
-        float burstStep2 = 0.97;
-        float burstStepDuration = 0.08;
-        
-        [UIView animateWithDuration:0.15 delay:0.0 options:UIViewAnimationOptionCurveEaseIn animations:^{
+        [UIView animateWithDuration:ANNOTATION_BURST_DURATION1 delay:0.0 options:UIViewAnimationOptionCurveEaseIn animations:^
+        {
             annotationView.alpha = 1.0;
-            
-            annotationView.transform = CGAffineTransformMakeScale(burstStep1, burstStep1);
+            annotationView.transform = CGAffineTransformMakeScale(ANNOTATION_BURST_SCALE1, ANNOTATION_BURST_SCALE1);
         }
-                         completion:^(BOOL finished) {
-                             
-                             [UIView animateWithDuration:burstStepDuration delay:0.0 options:UIViewAnimationOptionCurveEaseIn animations:^{
-                                 annotationView.transform = CGAffineTransformMakeScale(burstStep2, burstStep2);
-                             }
-                                              completion:^(BOOL finished) {
-                                                  
-                                                  [UIView animateWithDuration:burstStepDuration delay:0.0 options:UIViewAnimationOptionCurveEaseIn animations:^{
-                                                      annotationView.transform = CGAffineTransformIdentity;
-                                                  }
-                                                                   completion:^(BOOL finished) {
-
-                                                                       
-                                                                   }];
-                                                  
-                                              }];
-                             
-                             
-                         }];
-        
+                         completion:^(BOOL finished) 
+        {
+            [UIView animateWithDuration:ANNOTATION_BURST_DURATION2 
+                                  delay:0.0 
+                                options:UIViewAnimationOptionCurveEaseIn 
+                             animations:^
+            {
+                annotationView.transform = CGAffineTransformMakeScale(ANNOTATION_BURST_SCALE2, ANNOTATION_BURST_SCALE2);
+            }
+                             completion:^(BOOL finished) 
+            {
+                [UIView animateWithDuration:ANNOTATION_BURST_DURATION3 
+                                      delay:0.0 
+                                    options:UIViewAnimationOptionCurveEaseIn 
+                                 animations:^
+                {
+                    annotationView.transform = CGAffineTransformIdentity;
+                }
+                                 completion:^(BOOL finished) {}];
+            }];
+        }];
     }
     
     annotationVisible = YES;
-    
 }
 
 - (BOOL)isAnnotationVisible {

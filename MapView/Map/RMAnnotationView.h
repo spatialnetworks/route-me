@@ -7,11 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "RMMarker.h"
 
 @interface RMAnnotationView : UIView {
+    RMMarker *_marker;
     UILabel *titleLabel;
     UILabel *subtitleLabel;
+    UIButton *accessoryButton;
     UIImageView* leftImageView;
     UIImageView* leftMiddleImageView;
     UIImageView* middleTopImageView;
@@ -19,13 +21,12 @@
     UIImageView* rightMiddleImageView;
     UIImageView* rightImageView;
     UIImageView* disclosureImage;
-    CGPoint markerPoint;
+    float _contentWidth;
 }
 
-- (id)initWithTitles:(NSString *)title subtitle:(NSString *)subtitle atLocation:(float)x y:(float)y;
-- (id)initWithLocation:(float)x y:(float)y;
-- (void)setLocation:(float)x y:(float)y;
-- (void)setTitles:(NSString *)title subtitle:(NSString *)subtitle;
+- (id)initWithFrame:(CGRect)frame;
 - (void)configureSubviews;
+- (void)setMarker:(RMMarker *)marker title:(NSString *)title subtitle:(NSString *)subtitle;
+- (void)moveToPoint:(CGPoint)point;
 
 @end
