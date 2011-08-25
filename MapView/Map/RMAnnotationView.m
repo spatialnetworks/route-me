@@ -79,8 +79,8 @@
 
 
 - (void)moveToPoint:(CGPoint)point {
-    float x = roundf((point.x - (_contentWidth / 2.0)));
-    float y = roundf(point.y - ANNOTATION_HEIGHT_FULL - ANNOTATION_OFFSET_TOP);
+    float x = ((point.x - (_contentWidth / 2.0)));
+    float y = (point.y - ANNOTATION_HEIGHT_FULL - ANNOTATION_OFFSET_TOP);
     
     self.frame = CGRectMake(x, y, _contentWidth, ANNOTATION_HEIGHT_FULL);
 }
