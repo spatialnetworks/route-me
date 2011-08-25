@@ -29,11 +29,16 @@
 #import "RMMercatorToScreenProjection.h"
 #import "RMProjection.h"
 #import "RMLayerCollection.h"
+#import "RMLocationMarker.h"
+
+@interface RMMarkerManager ()
+@property (readwrite, retain) RMMarker *userLocationMarker;
+@end
 
 @implementation RMMarkerManager
 
 @synthesize contents;
-@synthesize userDotLayers;
+@synthesize userLocationMarker = _userLocationMarker;
 
 - (id)initWithContents:(RMMapContents *)mapContents
 {
@@ -41,11 +46,7 @@
 		return nil;
 	
 	contents = mapContents;
-	
-    NSMutableArray *array = [[NSMutableArray alloc] init];
-    self.userDotLayers = array;
-    [array release];
-    
+
 	rotationTransform = CGAffineTransformIdentity; 
 	
 	return self;
@@ -53,7 +54,6 @@
 
 - (void)dealloc
 {
-    [self.userDotLayers release];
 	contents = nil;
 	[super dealloc];
 }
@@ -68,6 +68,10 @@
 	[marker setProjectedLocation:projectedPoint];
 	[marker setPosition:[[contents mercatorToScreenProjection] projectXYPoint:projectedPoint]];
 	[[contents overlay] addSublayer:marker];
+    
+    if ([marker isKindOfClass:[RMLocationMarker class]]) {
+        self.userLocationMarker = marker;
+    }
 }
 
 /// place the (newly created) marker onto the map and take ownership of it
@@ -82,6 +86,15 @@
 - (void) removeMarkers
 {
 	[[contents overlay] setSublayers:[NSArray arrayWithObjects:nil]]; 
+}
+
+- (void)removeAllMarkersExceptUserLocation
+{
+    if (self.userLocationMarker) {
+        [[contents overlay] setSublayers:[NSArray arrayWithObject:self.userLocationMarker]];
+    } else {
+        [[contents overlay] setSublayers:[NSArray arrayWithObjects:nil]];
+    }
 }
 
 /// \bug this will hide path overlays too?
@@ -102,9 +115,9 @@
 #pragma mark 
 #pragma mark Marker information
 
-- (NSArray *)markersWithUserDotExcluded{
+- (NSArray *)markersWithLocationExcluded {
     NSMutableArray *array = [NSMutableArray arrayWithArray:[self markers]];
-    [array removeObjectsInArray:(NSArray *)self.userDotLayers];
+    [array removeObjectsInArray:[NSArray arrayWithObject:self.userLocationMarker]];
     return array;
 }
 

@@ -19,13 +19,14 @@
 #define ANNOTATION_BUTTON_SIZE  32.0
 
 @implementation RMAnnotationView
+@synthesize accessoryButton = _accessoryButton;
 
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
-        accessoryButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
-        accessoryButton.frame = CGRectZero;
+        self.accessoryButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+        self.accessoryButton.frame = CGRectZero;
         
         leftImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon-annotation-left.png"]];
         leftMiddleImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon-annotation-stretch.png"]];
@@ -57,7 +58,7 @@
         
         [self addSubview:titleLabel];
         [self addSubview:subtitleLabel];
-        [self addSubview:accessoryButton];
+        [self addSubview:self.accessoryButton];
         
         middleTopImageView.hidden = YES;
     }
@@ -101,7 +102,7 @@
     middleBottomImageView.frame = CGRectMake(leftMiddleImageView.frame.origin.x + leftMiddleImageView.frame.size.width, 0, ANNOTATION_IMAGE_WIDTH, ANNOTATION_HEIGHT_FULL);
     rightMiddleImageView.frame = CGRectMake(middleTopImageView.frame.origin.x + middleTopImageView.frame.size.width, 0, rightPart, ANNOTATION_HEIGHT);
     rightImageView.frame = CGRectMake(rightMiddleImageView.frame.origin.x + rightMiddleImageView.frame.size.width, 0, 17.0, ANNOTATION_HEIGHT);
-    accessoryButton.frame = CGRectMake(contentWidth - 44.0, 8.0, ANNOTATION_BUTTON_SIZE, ANNOTATION_BUTTON_SIZE);
+    self.accessoryButton.frame = CGRectMake(contentWidth - 44.0, 8.0, ANNOTATION_BUTTON_SIZE, ANNOTATION_BUTTON_SIZE);
     
     titleLabel.frame = CGRectMake(18.0, 2.0, contentWidth - ANNOTATION_PADDING, 24.0);
     subtitleLabel.frame = CGRectMake(18.0, 24.0, contentWidth - ANNOTATION_PADDING, 18.0);
@@ -123,7 +124,7 @@
     [rightMiddleImageView release];
     [rightImageView release];
     [disclosureImage release];
-    [accessoryButton release];
+    self.accessoryButton = nil;
     [super dealloc];
 }
 

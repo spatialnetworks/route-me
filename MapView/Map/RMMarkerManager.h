@@ -35,11 +35,9 @@
 @interface RMMarkerManager : NSObject {
 	RMMapContents *contents;
         CGAffineTransform rotationTransform;
-    NSMutableArray *userDotLayers;
 }
 
 @property (assign, readwrite)  RMMapContents *contents;
-@property (nonatomic, retain)  NSMutableArray *userDotLayers;
 
 - (id)initWithContents:(RMMapContents *)mapContents;
 
@@ -48,9 +46,10 @@
 - (void) removeMarkers;
 - (void) hideAllMarkers;
 - (void) unhideAllMarkers;
+- (void) removeAllMarkersExceptUserLocation;
 
 - (NSArray *)markers;
-- (NSArray *)markersWithUserDotExcluded;
+- (NSArray *)markersWithLocationExcluded;
 - (void) removeMarker:(RMMarker *)marker;
 - (void) removeMarkers:(NSArray *)markers;
 - (CGPoint) screenCoordinatesForMarker: (RMMarker *)marker;

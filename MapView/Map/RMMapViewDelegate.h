@@ -62,4 +62,6 @@
 
 - (void) afterMapTouch: (RMMapView*) map;
 
+- (void)mapView:(RMMapView *)map didTapMarkerAccessoryButton:(RMMarker *)marker;
+
 @end

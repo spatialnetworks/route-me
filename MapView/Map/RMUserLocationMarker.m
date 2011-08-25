@@ -43,17 +43,18 @@
         self.radius = radiusOfCircle;
         self.pinCoordinate = point;
         self.blinkRadius = 200.0f/self.contents.zoom;
-        self.lineWidth = 1;
+        self.lineWidth = 2.0;
         self.fillColor = [UIColor colorWithRed:0 green:0 blue:1 alpha:0.05];
         self.lineColor = [UIColor colorWithRed:0.5 green:0.5 blue:1 alpha:1];
         self.initialized = YES;
         self.zoom = contents.zoom;
         UIImage *blueDot = [UIImage imageNamed:@"icon-location-marble.png"];
         self.image = blueDot;
-        [self initFirstCircle];
-        [self initCircle];
+//        [self initFirstCircle];
+//        [self initCircle];
         [self initdot];
-        [self initBlinkCircle];
+//        [self initBlinkCircle];
+        self.dot.hidden = NO;
     }
     return self;
 }
@@ -62,19 +63,19 @@
 {
     if(initialized)
     {
-        self.radius = radiusOfCircle;
-        if(self.zoom < 14.8f){self.circle.hidden = YES;}
-        else{self.circle.hidden = NO;}
-        self.circle.radiusInMeters = self.radius;
+//        self.radius = radiusOfCircle;
+//        if(self.zoom < 14.8f){self.circle.hidden = YES;}
+//        else{self.circle.hidden = NO;}
+//        self.circle.radiusInMeters = self.radius;
         self.pinCoordinate = point;
-        [self moveOverlay:self.dot AtLatLon:self.pinCoordinate];
-        [self moveOverlay:self.circle AtLatLon:self.pinCoordinate];
-        [self updateMainCircleSize];
-        self.blinkCircle.radiusInMeters = self.blinkRadius;
-        self.blinkCircle.hidden = NO;
-        [self addAnimationToBlinkCircle];
-        [self moveOverlay:self.blinkCircle AtLatLon:self.pinCoordinate];
-        [self performSelector:@selector(removeBlink) withObject:nil afterDelay:(float)8.0f];
+       [self moveOverlay:self.dot AtLatLon:self.pinCoordinate];
+//        [self moveOverlay:self.circle AtLatLon:self.pinCoordinate];
+//        [self updateMainCircleSize];
+//        self.blinkCircle.radiusInMeters = self.blinkRadius;
+//        self.blinkCircle.hidden = NO;
+//        [self addAnimationToBlinkCircle];
+//        [self moveOverlay:self.blinkCircle AtLatLon:self.pinCoordinate];
+//        [self performSelector:@selector(removeBlink) withObject:nil afterDelay:(float)8.0f];
     }
 }
 
@@ -121,8 +122,8 @@
 {
     CABasicAnimation *theAnimationForScalling;
     theAnimationForScalling=[CABasicAnimation animationWithKeyPath:@"transform.scale"];
-    theAnimationForScalling.duration = 2;
-    theAnimationForScalling.repeatCount= 5;
+    theAnimationForScalling.duration = 3.0;
+    theAnimationForScalling.repeatCount = 1;
     theAnimationForScalling.removedOnCompletion = YES;
     theAnimationForScalling.fromValue=[NSNumber numberWithBool:NO];
     theAnimationForScalling.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
@@ -130,8 +131,8 @@
     
     CABasicAnimation *theAnimationForOpaque;
     theAnimationForOpaque=[CABasicAnimation animationWithKeyPath:@"opacity"];
-    theAnimationForOpaque.duration = 2;
-    theAnimationForOpaque.repeatCount= 5;
+    theAnimationForOpaque.duration = 3;
+    theAnimationForOpaque.repeatCount= 1;
     theAnimationForOpaque.removedOnCompletion = YES;
     theAnimationForOpaque.fromValue=[NSNumber numberWithFloat:1];
     theAnimationForOpaque.toValue = [NSNumber numberWithFloat:0];

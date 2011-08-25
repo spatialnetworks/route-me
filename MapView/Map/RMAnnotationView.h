@@ -13,7 +13,6 @@
     RMMarker *_marker;
     UILabel *titleLabel;
     UILabel *subtitleLabel;
-    UIButton *accessoryButton;
     UIImageView* leftImageView;
     UIImageView* leftMiddleImageView;
     UIImageView* middleTopImageView;
@@ -24,9 +23,13 @@
     float _contentWidth;
 }
 
+@property (readwrite, retain) UIButton *accessoryButton;
+
 - (id)initWithFrame:(CGRect)frame;
 - (void)configureSubviews;
-- (void)setMarker:(RMMarker *)marker title:(NSString *)title subtitle:(NSString *)subtitle;
+- (void)setMarker:(RMMarker *)marker 
+            title:(NSString *)title 
+         subtitle:(NSString *)subtitle;
 - (void)moveToPoint:(CGPoint)point;
 
 @end

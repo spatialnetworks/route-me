@@ -201,6 +201,8 @@
    	_delegateHasDidDragMarker = [(NSObject*) delegate respondsToSelector: @selector(mapView: didDragMarker: withEvent:)];
 	
 	_delegateHasDragMarkerPosition = [(NSObject*) delegate respondsToSelector: @selector(dragMarkerPosition: onMap: position:)];
+    
+    _delegateHasTapMarkerAccessoryButton = [(NSObject*) delegate respondsToSelector:@selector(mapView:didTapMarkerAccessoryButton:)];
 }
 
 - (id<RMMapViewDelegate>) delegate
@@ -833,7 +835,11 @@
     if (annotationView == nil) {
         annotationView = [[RMAnnotationView alloc] initWithFrame:CGRectZero];
         [self addSubview:annotationView];
+        
+        [annotationView.accessoryButton addTarget:self action:@selector(tappedMarkerAccessoryButton:) forControlEvents:UIControlEventTouchUpInside];
     }
+    
+
     
     [annotationView setMarker:marker title:title subtitle:subtitle];
   
@@ -881,6 +887,13 @@
 
 - (RMMarker *)activeAnnotationMarker {
     return annotationMarker;
+}
+
+
+- (void)tappedMarkerAccessoryButton:(id)sender {
+    if (annotationMarker && _delegateHasTapMarkerAccessoryButton) {
+        [delegate mapView:self didTapMarkerAccessoryButton:annotationMarker];
+    }
 }
 
 @end
