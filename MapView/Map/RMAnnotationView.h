@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "RMMarker.h"
 
+#define ANNOTATION_OFFSET_TOP   28.0
+
 @interface RMAnnotationView : UIView {
     RMMarker *_marker;
     UILabel *titleLabel;
@@ -24,6 +26,7 @@
 }
 
 @property (readwrite, retain) UIButton *accessoryButton;
+@property (readwrite, assign) CGFloat offsetY;
 
 - (id)initWithFrame:(CGRect)frame;
 - (void)configureSubviews;

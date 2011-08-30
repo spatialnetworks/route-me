@@ -36,6 +36,7 @@
 #import "RMProjection.h"
 #import "RMMarkerManager.h"
 #import "RMAnnotationView.h"
+#import "RMLocationMarker.h"
 
 @interface RMMapView (PrivateMethods)
 // methods for post-touch deceleration, ala UIScrollView
@@ -840,6 +841,13 @@
     }
     
 
+    if ([marker isKindOfClass:[RMLocationMarker class]]) {
+        annotationView.offsetY = 0.0;
+        annotationView.accessoryButton.hidden = YES;
+    } else {
+        annotationView.offsetY = ANNOTATION_OFFSET_TOP;
+        annotationView.accessoryButton.hidden = NO;
+    }
     
     [annotationView setMarker:marker title:title subtitle:subtitle];
   

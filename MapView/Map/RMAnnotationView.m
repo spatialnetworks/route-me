@@ -11,7 +11,6 @@
 
 #define ANNOTATION_HEIGHT       57.0
 #define ANNOTATION_HEIGHT_FULL  70.0
-#define ANNOTATION_OFFSET_TOP   28.0
 #define ANNOTATION_WIDTH_MIN    75.0
 #define ANNOTATION_WIDTH_MAX   320.0
 #define ANNOTATION_PADDING      64.0
@@ -20,6 +19,7 @@
 
 @implementation RMAnnotationView
 @synthesize accessoryButton = _accessoryButton;
+@synthesize offsetY = _offsetY;
 
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
@@ -61,6 +61,8 @@
         [self addSubview:self.accessoryButton];
         
         middleTopImageView.hidden = YES;
+        
+        self.offsetY = ANNOTATION_OFFSET_TOP;
     }
     
     return self;
@@ -80,7 +82,7 @@
 
 - (void)moveToPoint:(CGPoint)point {
     float x = ((point.x - (_contentWidth / 2.0)));
-    float y = (point.y - ANNOTATION_HEIGHT_FULL - ANNOTATION_OFFSET_TOP);
+    float y = (point.y - ANNOTATION_HEIGHT_FULL - self.offsetY);
     
     self.frame = CGRectMake(x, y, _contentWidth, ANNOTATION_HEIGHT_FULL);
 }
