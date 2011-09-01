@@ -25,9 +25,9 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#import "RMMapQuestOSMSource.h"
+#import "RMMapQuestAerialSource.h"
 
-@implementation RMMapQuestOSMSource
+@implementation RMMapQuestAerialSource
 
 -(id) init
 {       
@@ -44,12 +44,12 @@
 	NSAssert4(((tile.zoom >= self.minZoom) && (tile.zoom <= self.maxZoom)),
 			  @"%@ tried to retrieve tile with zoomLevel %d, outside source's defined range %f to %f", 
 			  self, tile.zoom, self.minZoom, self.maxZoom);
-	return [NSString stringWithFormat:@"http://otile1.mqcdn.com/tiles/1.0.0/osm/%d/%d/%d.png", tile.zoom, tile.x, tile.y];
+	return [NSString stringWithFormat:@"http://oatile1.mqcdn.com/naip/%d/%d/%d.png", tile.zoom, tile.x, tile.y];
 }
 	
 -(NSString*) uniqueTilecacheKey
 {
-	return @"MapQuestOSM";
+	return @"MapQuestAerial";
 }
 
 -(NSString *)shortName
@@ -66,8 +66,7 @@
 }
 -(NSString *)longAttribution
 {
-//	return @"Tiles courtesy of <a href=\"http://www.mapquest.com\" target=\"_blank\">MapQuest</a> and <a href=\"http://www.openstreetmap.org\" target=\"_blank\">OpenStreetMap</a> contributors.";
-    return @"Tiles courtesy of MapQuest and OpenStreetMap contributors.";
+	return @"Tiles courtesy of MapQuest.";
 }
 
 @end

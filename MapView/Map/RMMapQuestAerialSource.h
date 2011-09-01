@@ -1,5 +1,5 @@
 //
-//  RMMapQuestOSMSource.m
+//  RMMapQuestOSMSource.h
 //
 // Copyright (c) 2008-2011, Route-Me Contributors
 // All rights reserved.
@@ -25,49 +25,14 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#import "RMMapQuestOSMSource.h"
+#import "RMAbstractMercatorWebSource.h"
 
-@implementation RMMapQuestOSMSource
-
--(id) init
-{       
-	if(self = [super init]) 
-	{
-		[self setMaxZoom:18];
-		[self setMinZoom:1];
-	}
-	return self;
-} 
-
--(NSString*) tileURL: (RMTile) tile
-{
-	NSAssert4(((tile.zoom >= self.minZoom) && (tile.zoom <= self.maxZoom)),
-			  @"%@ tried to retrieve tile with zoomLevel %d, outside source's defined range %f to %f", 
-			  self, tile.zoom, self.minZoom, self.maxZoom);
-	return [NSString stringWithFormat:@"http://otile1.mqcdn.com/tiles/1.0.0/osm/%d/%d/%d.png", tile.zoom, tile.x, tile.y];
-}
-	
--(NSString*) uniqueTilecacheKey
-{
-	return @"MapQuestOSM";
-}
-
--(NSString *)shortName
-{
-	return @"MapQuest";
-}
--(NSString *)longDescription
-{
-	return @"Map tiles courtesy of MapQuest.";
-}
--(NSString *)shortAttribution
-{
-	return @"Tiles courtesy of MapQuest.";
-}
--(NSString *)longAttribution
-{
-//	return @"Tiles courtesy of <a href=\"http://www.mapquest.com\" target=\"_blank\">MapQuest</a> and <a href=\"http://www.openstreetmap.org\" target=\"_blank\">OpenStreetMap</a> contributors.";
-    return @"Tiles courtesy of MapQuest and OpenStreetMap contributors.";
+/*! 
+ \brief Subclass of RMAbstractMercatorWebSource for access to MapQuest's version of OpenStreetMap.
+ 
+ Provides key-based access to tiles from MapQuest project. 
+ */
+@interface RMMapQuestAerialSource : RMAbstractMercatorWebSource <RMAbstractMercatorWebSource>{
 }
 
 @end
