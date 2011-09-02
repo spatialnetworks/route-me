@@ -67,10 +67,12 @@
 	[marker setAffineTransform:rotationTransform];
 	[marker setProjectedLocation:projectedPoint];
 	[marker setPosition:[[contents mercatorToScreenProjection] projectXYPoint:projectedPoint]];
-	[[contents overlay] addSublayer:marker];
     
     if ([marker isKindOfClass:[RMLocationMarker class]]) {
         self.userLocationMarker = marker;
+        [[contents overlay] insertSublayer:marker atIndex:0];
+    } else {
+        [[contents overlay] addSublayer:marker];
     }
 }
 
