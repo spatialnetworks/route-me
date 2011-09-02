@@ -52,6 +52,8 @@
     FMDatabase *db;
 }
 
+- (NSString *)boundsString;
+
 - (id)initWithTileSetURL:(NSURL *)tileSetURL;
 - (int)tileSideLength;
 - (void)setTileSideLength:(NSUInteger)aTileSideLength;

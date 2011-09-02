@@ -182,10 +182,61 @@
     [tileProjection setMaxZoom:aMaxZoom];
 }
 
+
+- (NSString *)boundsString {
+    FMResultSet *results = [db executeQuery:@"select value from metadata where name = 'bounds'"];
+    
+    if ([db hadError])
+        return nil;
+    
+    [results next];
+    
+    NSString *boundsString = [results stringForColumnIndex:0];
+    
+    [results close];
+    
+    return boundsString;
+}
+
+
 - (RMSphericalTrapezium)latitudeLongitudeBoundingBox
 {
+    FMResultSet *results = [db executeQuery:@"select value from metadata where name = 'bounds'"];
+    
+    if ([db hadError])
+        return kMBTilesDefaultLatLonBoundingBox;
+    
+    [results next];
+    
+    NSString *boundsString = [results stringForColumnIndex:0];
+    
+    [results close];
+    
+    if (boundsString)
+    {
+        NSArray *parts = [boundsString componentsSeparatedByString:@","];
+        
+        if ([parts count] == 4)
+        {
+            RMSphericalTrapezium bounds = {
+                .southwest = {
+                    .longitude = [[parts objectAtIndex:0] doubleValue],
+                    .latitude  = [[parts objectAtIndex:1] doubleValue],
+                },
+                .northeast = {
+                    .longitude = [[parts objectAtIndex:2] doubleValue],
+                    .latitude  = [[parts objectAtIndex:3] doubleValue],
+                },
+            };
+            
+            return bounds;
+        }
+    }
+    
     return kMBTilesDefaultLatLonBoundingBox;
 }
+
+
 
 - (void)didReceiveMemoryWarning
 {
@@ -247,7 +298,16 @@
 
 - (NSString *)longAttribution
 {
-    return [NSString stringWithFormat:@"%@ - %@", [self shortName], [self shortAttribution]];
+    NSString *shortAttribution = [self shortAttribution];
+    NSString *shortName = [self shortName];
+    
+    if (shortAttribution) {
+        return [NSString stringWithFormat:@"%@ - %@", [self shortName], [self shortAttribution]];
+    } else if (shortName) {
+        return shortName;
+    } else {
+        return @"";
+    }
 }
 
 - (void)removeAllCachedImages
