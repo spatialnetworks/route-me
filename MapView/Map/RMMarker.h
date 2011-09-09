@@ -32,6 +32,8 @@
 #import <CoreLocation/CoreLocation.h>
 #endif
 
+extern NSString *kRMUserLocationMarker;
+
 @class RMMarkerStyle;
 
 /// one marker drawn on the map. Note that RMMarker ultimately descends from CALayer, and has an image contents.

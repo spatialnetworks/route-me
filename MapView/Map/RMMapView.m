@@ -36,7 +36,7 @@
 #import "RMProjection.h"
 #import "RMMarkerManager.h"
 #import "RMAnnotationView.h"
-#import "RMLocationMarker.h"
+//#import "RMLocationMarker.h"
 
 @interface RMMapView (PrivateMethods)
 // methods for post-touch deceleration, ala UIScrollView
@@ -841,7 +841,7 @@
     }
     
 
-    if ([marker isKindOfClass:[RMLocationMarker class]]) {
+    if (marker.data == kRMUserLocationMarker) {
         annotationView.offsetY = 0.0;
         annotationView.accessoryButton.hidden = YES;
     } else {

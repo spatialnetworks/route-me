@@ -29,6 +29,8 @@
 
 #import "RMPixel.h"
 
+NSString *kRMUserLocationMarker = @"RMUserLocationMarker";
+
 @implementation RMMarker
 
 @synthesize projectedLocation;

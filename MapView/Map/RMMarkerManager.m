@@ -29,7 +29,7 @@
 #import "RMMercatorToScreenProjection.h"
 #import "RMProjection.h"
 #import "RMLayerCollection.h"
-#import "RMLocationMarker.h"
+//#import "RMLocationMarker.h"
 
 @interface RMMarkerManager ()
 @property (readwrite, retain) RMMarker *userLocationMarker;
@@ -68,7 +68,7 @@
 	[marker setProjectedLocation:projectedPoint];
 	[marker setPosition:[[contents mercatorToScreenProjection] projectXYPoint:projectedPoint]];
     
-    if ([marker isKindOfClass:[RMLocationMarker class]]) {
+    if (marker.data == kRMUserLocationMarker) {
         self.userLocationMarker = marker;
         [[contents overlay] insertSublayer:marker atIndex:0];
     } else {
