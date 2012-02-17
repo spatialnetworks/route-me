@@ -127,9 +127,12 @@
 {
     if (contents != theContents) {
         [contents release];
-        contents = [theContents retain];
-		_contentsIsSet = YES;
-		[self performInitialSetup];
+        if (theContents != nil)
+	{
+	    contents = [theContents retain];
+	    _contentsIsSet = YES;
+	    [self performInitialSetup];
+	}
     }
 }
 
