@@ -126,20 +126,26 @@
 - (void)setContents:(RMMapContents *)theContents
 {
     if (contents != theContents) {
-        [contents release];
+        if (contents) {
+            [contents release];
+            contents = nil;
+        }
+        
         if (theContents != nil)
-	{
-	    contents = [theContents retain];
-	    _contentsIsSet = YES;
-	    [self performInitialSetup];
-	}
+        {
+            contents = [theContents retain];
+            _contentsIsSet = YES;
+            [self performInitialSetup];
+        }
     }
 }
 
 -(void) dealloc
 {
 	LogMethod();
-	self.contents = nil;
+    if (contents) {
+        [contents release];
+    }
 	[super dealloc];
 }
 
