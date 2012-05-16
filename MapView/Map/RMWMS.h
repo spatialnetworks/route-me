@@ -44,7 +44,7 @@
     
 }
 
-@property (retain) NSString *urlPrefix;
+@property (nonatomic, retain) NSString *urlPrefix;
 @property (retain) NSString *layers;
 @property (retain) NSString *styles;
 @property (retain) NSString *queryLayers;
