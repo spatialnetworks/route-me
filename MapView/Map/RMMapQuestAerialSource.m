@@ -44,7 +44,7 @@
 	NSAssert4(((tile.zoom >= self.minZoom) && (tile.zoom <= self.maxZoom)),
 			  @"%@ tried to retrieve tile with zoomLevel %d, outside source's defined range %f to %f", 
 			  self, tile.zoom, self.minZoom, self.maxZoom);
-	return [NSString stringWithFormat:@"http://oatile1.mqcdn.com/naip/%d/%d/%d.png", tile.zoom, tile.x, tile.y];
+    return [NSString stringWithFormat:@"http://oatile1.mqcdn.com/tiles/1.0.0/sat/%d/%d/%d.jpg", tile.zoom, tile.x, tile.y];
 }
 	
 -(NSString*) uniqueTilecacheKey
