@@ -31,6 +31,7 @@
 
 static UIImage *_errorTile = nil;
 static UIImage *_missingTile = nil;
+static UIImage *_loadingTile = nil;
 
 + (UIImage*) errorTile
 {
@@ -46,6 +47,14 @@ static UIImage *_missingTile = nil;
 	
 	_missingTile = [[UIImage imageNamed:@"missing.png"] retain];
 	return _missingTile;
+}
+
++ (UIImage*) loadingTile
+{
+	if (_loadingTile) return _loadingTile;
+    
+	_loadingTile = [[UIImage imageNamed:@"loading.png"] retain];
+	return _loadingTile;
 }
 
 @end

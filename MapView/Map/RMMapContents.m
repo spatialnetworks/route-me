@@ -163,7 +163,8 @@
 	[tileLoader setSuppressLoading:NO];
 	
 	/// \bug TODO: Make a nice background class
-	RMMapLayer *theBackground = [[RMMapLayer alloc] init];
+	RMMapLayer *theBackground = [[RMMapLayer alloc] init]; 
+    theBackground.backgroundColor = [UIColor colorWithRed:0xc1/255.0 green:0xbf/255.0 blue:0xbb/255.0 alpha:1.0].CGColor;
 	[self setBackground:theBackground];
 	[theBackground release];
 	
