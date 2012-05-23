@@ -1,5 +1,5 @@
 //
-//  RMTileProxy.m
+//  RMTileCacheSource.h
 //
 // Copyright (c) 2008-2009, Route-Me Contributors
 // All rights reserved.
@@ -25,45 +25,31 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#import "RMTileProxy.h"
+#import "RMAbstractMercatorWebSource.h"
 
-@implementation RMTileProxy
+/*! 
+ brief Subclass of RMAbstractMercatorWebSource for access to a fully-seeded TileCache source.
+ 
+ TileCache directory zoom levels do not necessarily correspond to the internal zoom levels of
+ route-me.  That is, route-me's default zoom level of 0 is comprised of 4 tiles (2x2), while
+ a TileCache source could be constructed of some other power of 2, such as 64 tiles (8x8).  
+ When itializing a TileCache source with initWithTSURL:zoomAdj:fileType, zoomAdj must be equal 
+ to the power of 2 that corresponds to the number of tiles on one axis your TileCache directory.
+ Therefore, given the previous example of 64 tiles from 8 tiles on each axis, zoomAdj = 3, 
+ as 2^3 = 8.
+*/
 
-static UIImage *_errorTile = nil;
-static UIImage *_loadingTile = nil;
-static UIImage *_missingTile = nil;
-static UIImage *_loadingTile = nil;
-
-+ (UIImage*) errorTile
-{
-	if (_errorTile) return _errorTile;
-	
-	_errorTile = [[UIImage imageNamed:@"error.png"] retain];
-	return _errorTile;
+@interface RMTileCacheSource : RMAbstractMercatorWebSource <RMAbstractMercatorWebSource> {
+	@private
+	NSString *_shortName;
+	NSString *urlSource;
+	NSInteger zoomAdjustment;
+	NSString *fileType;
 }
 
-+ (UIImage*) loadingTile
-{
-	if (_loadingTile) return _loadingTile;
-	
-	_loadingTile = [[UIImage imageNamed:@"loading.png"] retain];
-	return _loadingTile;
-}
+- (id) initWithTSUrl:(NSString*)tileCacheUrl zoomAdj:(NSInteger)adj fileType:(NSString*)type;
 
-+ (UIImage*) missingTile
-{
-	if (_missingTile) return _missingTile;
-	
-	_missingTile = [[UIImage imageNamed:@"missing.png"] retain];
-	return _missingTile;
-}
-
-+ (UIImage*) loadingTile
-{
-	if (_loadingTile) return _loadingTile;
-    
-	_loadingTile = [[UIImage imageNamed:@"loading.png"] retain];
-	return _loadingTile;
-}
+-(NSString*) urlForTile: (RMTile)tile;
+-(NSString*) zeropad: (NSInteger)number :(NSInteger)length;
 
 @end

@@ -1,5 +1,5 @@
 //
-//  OpenCycleMapSource.m
+//  RMTileCacheSource.m
 //
 // Copyright (c) 2008-2009, Route-Me Contributors
 // All rights reserved.
@@ -25,48 +25,83 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#import "RMOpenCycleMapSource.h"
+#import "RMTileCacheSource.h"
 
-@implementation RMOpenCycleMapSource
+@implementation RMTileCacheSource
+- (id) init
+{
+	return [self initWithTSUrl:@"" zoomAdj:0 fileType:@""];
+}
 
--(id) init
-{       
-	if(self = [super init]) 
+- (id) initWithTSUrl:(NSString*)tileCacheUrl zoomAdj:(NSInteger)adj fileType:(NSString*)type
+{
+	if (self = [super init]) 
 	{
-		[self setMaxZoom:18];
-		[self setMinZoom:1];
+		zoomAdjustment = adj;
+		
+		_shortName = [NSString stringWithString:@"TileCache Source"];
+		urlSource = [NSString stringWithString:tileCacheUrl];
+		fileType = [NSString stringWithString:type];
 	}
 	return self;
-} 
+};
 
 -(NSString*) tileURL: (RMTile) tile
 {
-	NSAssert4(((tile.zoom >= self.minZoom) && (tile.zoom <= self.maxZoom)),
-			  @"%@ tried to retrieve tile with zoomLevel %d, outside source's defined range %f to %f", 
-			  self, tile.zoom, self.minZoom, self.maxZoom);
-	return [NSString stringWithFormat:@"http://tile.opencyclemap.org/cycle/%d/%d/%d.png", tile.zoom, tile.x, tile.y];
+	return [self urlForTile:tile];
+}
+
+-(NSString*) zeropad: (NSInteger)number :(NSInteger)length
+{
+	NSString *result;
+	NSString *numString = [NSString stringWithFormat:@"%d", number];
+	result = [NSString stringWithFormat:@"%@%@", [@"000" substringToIndex:length-[numString length]], numString];
+	return result;
+}
+
+-(NSString*) urlForTile: (RMTile) tile
+{
+	NSInteger yReversal = pow(2.0, tile.zoom) - 1;
+	
+	return [NSString stringWithFormat:@"%@%@%@%@%@%@%@%@%@%@%@%@%@%@%@%@",
+			urlSource,
+			@"/",
+			[self zeropad:(tile.zoom-zoomAdjustment):2], 
+			@"/",
+			[self zeropad:((tile.x)/1000000):3], 
+			@"/",
+			[self zeropad:(((tile.x)/1000)%1000):3], 
+			@"/",
+			[self zeropad:((tile.x)%1000):3], 
+			@"/",
+			[self zeropad:((yReversal - tile.y)/1000000):3], 
+			@"/",
+			[self zeropad:(((yReversal - tile.y)/1000)%1000):3], 
+			@"/",
+			[self zeropad:((yReversal - tile.y)%1000):3], 
+			@".png"];
 }
 
 -(NSString*) uniqueTilecacheKey
 {
-	return @"OpenCycleMap";
+	return @"TileCache Source";
 }
 
 -(NSString *)shortName
 {
-	return @"OpenCycleMap";
+	return _shortName;
 }
 -(NSString *)longDescription
 {
-	return @"OpenCycleMap, a worldwide map for cyclists based on OpenStreetMap data, available under the Creative Commons Attribution-Share Alike 2.0 license.";
+	return [NSString stringWithFormat:@"TileCache Source: %@",urlSource];
 }
 -(NSString *)shortAttribution
 {
-	return @"© OpenCycleMap CC-BY-SA";
+	return @"TileCache Source";
 }
 -(NSString *)longAttribution
 {
-	return @"Map data © OpenCycleMap, licensed under Creative Commons Share Alike By Attribution.";
+	return @"TileCache Source";
 }
 
 @end

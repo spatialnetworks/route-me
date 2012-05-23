@@ -1,7 +1,7 @@
 //
-//  RMTileProxy.m
+//  RMURLConnectionOperation.h
 //
-// Copyright (c) 2008-2009, Route-Me Contributors
+// Copyright (c) 2008-2011, Route-Me Contributors
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -25,45 +25,17 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#import "RMTileProxy.h"
 
-@implementation RMTileProxy
+#import <Foundation/Foundation.h>
 
-static UIImage *_errorTile = nil;
-static UIImage *_loadingTile = nil;
-static UIImage *_missingTile = nil;
-static UIImage *_loadingTile = nil;
-
-+ (UIImage*) errorTile
-{
-	if (_errorTile) return _errorTile;
-	
-	_errorTile = [[UIImage imageNamed:@"error.png"] retain];
-	return _errorTile;
+@interface RMURLConnectionOperation : NSOperation {
+    id                      _delegate;
+    NSURLConnection         *_connection;
+    NSURLRequest            *_request;
+    BOOL                    _isRunning;
 }
 
-+ (UIImage*) loadingTile
-{
-	if (_loadingTile) return _loadingTile;
-	
-	_loadingTile = [[UIImage imageNamed:@"loading.png"] retain];
-	return _loadingTile;
-}
-
-+ (UIImage*) missingTile
-{
-	if (_missingTile) return _missingTile;
-	
-	_missingTile = [[UIImage imageNamed:@"missing.png"] retain];
-	return _missingTile;
-}
-
-+ (UIImage*) loadingTile
-{
-	if (_loadingTile) return _loadingTile;
-    
-	_loadingTile = [[UIImage imageNamed:@"loading.png"] retain];
-	return _loadingTile;
-}
+-(id)initWithRequest:(NSURLRequest *)request delegate:(id)delegate;
+-(void)stop;
 
 @end

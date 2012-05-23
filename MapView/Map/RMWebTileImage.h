@@ -28,7 +28,10 @@
 #import <Foundation/Foundation.h>
 #import "RMTileImage.h"
 
+#import "RMURLConnectionOperation.h"
+
 static const NSUInteger kWebTileRetries = 30;
+static const NSUInteger kMaxConcurrentConnections = 5;
 
 extern NSString *RMWebTileImageErrorDomain;
 
@@ -49,7 +52,7 @@ extern NSString *RMWebTileImageNotificationErrorKey;
     NSError *lastError;
 
 	NSURL *url;
-	NSURLConnection *connection;
+    RMURLConnectionOperation *connectionOp;
 
 	NSMutableData *data;
 }

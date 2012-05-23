@@ -36,9 +36,8 @@
 #import "RMTileImage.h"
 #import "RMProjection.h"
 #import "RMFractalTileProjection.h"
-#import "FMDatabase.h"
 
-#pragma mark -
+#import "FMDatabase.h"
 
 @implementation RMMBTilesTileSource
 
@@ -236,7 +235,55 @@
     return kMBTilesDefaultLatLonBoundingBox;
 }
 
+- (BOOL)coversFullWorld
+{
+    RMSphericalTrapezium ownBounds     = [self latitudeLongitudeBoundingBox];
+    RMSphericalTrapezium defaultBounds = kMBTilesDefaultLatLonBoundingBox;
+    
+    if (ownBounds.southwest.longitude <= defaultBounds.southwest.longitude + 10 && 
+        ownBounds.northeast.longitude >= defaultBounds.northeast.longitude - 10)
+        return YES;
+    
+    return NO;
+}
 
+- (RMMBTilesLayerType)layerType
+{
+    FMResultSet *results = [db executeQuery:@"select value from metadata where name = 'type'"];
+    
+    if ([db hadError])
+        return RMMBTilesLayerTypeBaselayer;
+    
+    [results next];
+    
+    NSString *type = nil;
+    
+    if ([results hasAnotherRow])
+        type = [results stringForColumn:@"value"];
+    
+    [results close];
+    
+    return ([type isEqualToString:@"overlay"] ? RMMBTilesLayerTypeOverlay : RMMBTilesLayerTypeBaselayer);
+}
+
+- (NSString *)legend
+{
+    FMResultSet *results = [db executeQuery:@"select value from metadata where name = 'legend'"];
+    
+    if ([db hadError])
+        return nil;
+    
+    [results next];
+    
+    NSString *legend = nil;
+    
+    if ([results hasAnotherRow])
+        legend = [results stringForColumn:@"value"];
+    
+    [results close];
+    
+    return legend;
+}
 
 - (void)didReceiveMemoryWarning
 {
@@ -277,7 +324,7 @@
     
     [results close];
     
-    return [NSString stringWithFormat:@"%@ - %@", [self shortName], description];
+    return [NSString stringWithFormat:@"%@%@%@", [self shortName], ([[self shortName] length] && [description length] ? @" - " : @""), description];
 }
 
 - (NSString *)shortAttribution
@@ -298,16 +345,7 @@
 
 - (NSString *)longAttribution
 {
-    NSString *shortAttribution = [self shortAttribution];
-    NSString *shortName = [self shortName];
-    
-    if (shortAttribution) {
-        return [NSString stringWithFormat:@"%@ - %@", [self shortName], [self shortAttribution]];
-    } else if (shortName) {
-        return shortName;
-    } else {
-        return @"";
-    }
+    return [NSString stringWithFormat:@"%@%@%@", [self shortName], ([[self shortName] length] && [[self shortAttribution] length] ? @" - " : @""), [self shortAttribution]];
 }
 
 - (void)removeAllCachedImages

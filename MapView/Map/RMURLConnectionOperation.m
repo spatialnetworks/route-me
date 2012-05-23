@@ -1,5 +1,5 @@
 //
-//  RMTileProxy.m
+//  RMURLConnectionOperation.m
 //
 // Copyright (c) 2008-2009, Route-Me Contributors
 // All rights reserved.
@@ -25,45 +25,40 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#import "RMTileProxy.h"
+#import "RMURLConnectionOperation.h"
 
-@implementation RMTileProxy
+@implementation RMURLConnectionOperation
 
-static UIImage *_errorTile = nil;
-static UIImage *_loadingTile = nil;
-static UIImage *_missingTile = nil;
-static UIImage *_loadingTile = nil;
-
-+ (UIImage*) errorTile
-{
-	if (_errorTile) return _errorTile;
-	
-	_errorTile = [[UIImage imageNamed:@"error.png"] retain];
-	return _errorTile;
+-(id)initWithRequest:(NSURLRequest *)request delegate:(id)delegate {
+    if((self = [super init]))
+    {
+        _delegate = delegate;
+        _request = [request retain];
+        _isRunning = YES;
+    }
+    return self;
 }
 
-+ (UIImage*) loadingTile
-{
-	if (_loadingTile) return _loadingTile;
-	
-	_loadingTile = [[UIImage imageNamed:@"loading.png"] retain];
-	return _loadingTile;
+-(void)main {
+    if ([self isCancelled] || !_isRunning)
+    {
+        return;
+    }
+    _connection = [[NSURLConnection alloc] initWithRequest:_request delegate:_delegate startImmediately:YES];
+    [_request release];_request = nil;
+    while (_isRunning && ![self isCancelled] && [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]]);
+    [_connection cancel];
+    [_connection release];
+    _connection = nil; 
 }
 
-+ (UIImage*) missingTile
-{
-	if (_missingTile) return _missingTile;
-	
-	_missingTile = [[UIImage imageNamed:@"missing.png"] retain];
-	return _missingTile;
+-(void)stop {
+    _isRunning = NO;
 }
 
-+ (UIImage*) loadingTile
-{
-	if (_loadingTile) return _loadingTile;
-    
-	_loadingTile = [[UIImage imageNamed:@"loading.png"] retain];
-	return _loadingTile;
+-(void)dealloc {
+    [_request release];
+    [super dealloc];
 }
 
 @end
