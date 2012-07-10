@@ -109,10 +109,10 @@
 		2BEC61310F8ACC21008FB858 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B8474BC00EB4019A006A0BC1 /* libsqlite3.dylib */; };
 		2BEC61320F8ACC24008FB858 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B83E65680E80E830001663B6 /* QuartzCore.framework */; };
 		2BEC61330F8ACC25008FB858 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
-		3343FB6F140F452E00BF80DA /* RMMapQuestAerialSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 3343FB6D140F452E00BF80DA /* RMMapQuestAerialSource.h */; };
-		3343FB70140F452E00BF80DA /* RMMapQuestAerialSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 3343FB6E140F452E00BF80DA /* RMMapQuestAerialSource.m */; };
 		336D11BD1405632200B235EA /* RMAnnotationView.h in Headers */ = {isa = PBXBuildFile; fileRef = 336D11BB1405632200B235EA /* RMAnnotationView.h */; };
 		336D11BE1405632200B235EA /* RMAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 336D11BC1405632200B235EA /* RMAnnotationView.m */; };
+		336DB8BB156D5FA700D70C6D /* RMMapQuestAerialSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 336DB8B9156D5FA700D70C6D /* RMMapQuestAerialSource.h */; };
+		336DB8BC156D5FA700D70C6D /* RMMapQuestAerialSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 336DB8BA156D5FA700D70C6D /* RMMapQuestAerialSource.m */; };
 		3374A90A1406110F008A5320 /* RMLocationMarker.h in Headers */ = {isa = PBXBuildFile; fileRef = 3374A9081406110F008A5320 /* RMLocationMarker.h */; };
 		3374A90B1406110F008A5320 /* RMLocationMarker.m in Sources */ = {isa = PBXBuildFile; fileRef = 3374A9091406110F008A5320 /* RMLocationMarker.m */; };
 		3849889C0F6F758100496293 /* libProj4.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 38D818500F6F67B90034598B /* libProj4.a */; };
@@ -298,10 +298,10 @@
 		2BF3078F0F8AC5C0007014EE /* RM Unit Tests.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "RM Unit Tests.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2BF307910F8AC5C0007014EE /* RM Unit Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "RM Unit Tests-Info.plist"; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* MapView_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapView_Prefix.pch; sourceTree = "<group>"; };
-		3343FB6D140F452E00BF80DA /* RMMapQuestAerialSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMMapQuestAerialSource.h; sourceTree = "<group>"; };
-		3343FB6E140F452E00BF80DA /* RMMapQuestAerialSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RMMapQuestAerialSource.m; sourceTree = "<group>"; };
 		336D11BB1405632200B235EA /* RMAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMAnnotationView.h; sourceTree = "<group>"; };
 		336D11BC1405632200B235EA /* RMAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RMAnnotationView.m; sourceTree = "<group>"; };
+		336DB8B9156D5FA700D70C6D /* RMMapQuestAerialSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMMapQuestAerialSource.h; sourceTree = "<group>"; };
+		336DB8BA156D5FA700D70C6D /* RMMapQuestAerialSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RMMapQuestAerialSource.m; sourceTree = "<group>"; };
 		3374A9081406110F008A5320 /* RMLocationMarker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMLocationMarker.h; sourceTree = "<group>"; };
 		3374A9091406110F008A5320 /* RMLocationMarker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RMLocationMarker.m; sourceTree = "<group>"; };
 		3866784C0F6B9B9200C56B17 /* MapView.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapView.framework; path = build/MapView.framework; sourceTree = "<group>"; };
@@ -690,6 +690,8 @@
 		B83E64EB0E80E73F001663B6 /* Tile Source */ = {
 			isa = PBXGroup;
 			children = (
+				336DB8B9156D5FA700D70C6D /* RMMapQuestAerialSource.h */,
+				336DB8BA156D5FA700D70C6D /* RMMapQuestAerialSource.m */,
 				96FE8E340F72D01B00A11CF0 /* RMYahooMapSource.h */,
 				96FE8E350F72D01B00A11CF0 /* RMYahooMapSource.m */,
 				B1EB26C110B5D8C0009F8658 /* RMOpenCycleMapSource.h */,
@@ -918,6 +920,7 @@
 >>>>>>> upstream/master
 				DDCD58D31406F8A400F59E0D /* RMTileStreamSource.h in Headers */,
 				F56554F8146E002B00623AC9 /* RMURLConnectionOperation.h in Headers */,
+				336DB8BB156D5FA700D70C6D /* RMMapQuestAerialSource.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1228,6 +1231,7 @@
 >>>>>>> upstream/master
 				DDCD58D41406F8A400F59E0D /* RMTileStreamSource.m in Sources */,
 				F56554F9146E002B00623AC9 /* RMURLConnectionOperation.m in Sources */,
+				336DB8BC156D5FA700D70C6D /* RMMapQuestAerialSource.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
