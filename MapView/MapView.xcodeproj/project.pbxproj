@@ -911,8 +911,11 @@
 				17F02BB11319BA4B00260C6B /* RouteMe.h in Headers */,
 				175701DE1323C2E900A5D314 /* NSUserDefaults+RouteMe.h in Headers */,
 				DDA3E85613B00D9E004D861C /* RMMapQuestOSMSource.h in Headers */,
+<<<<<<< HEAD
 				336D11BD1405632200B235EA /* RMAnnotationView.h in Headers */,
 				3374A90A1406110F008A5320 /* RMLocationMarker.h in Headers */,
+=======
+>>>>>>> upstream/master
 				DDCD58D31406F8A400F59E0D /* RMTileStreamSource.h in Headers */,
 				F56554F8146E002B00623AC9 /* RMURLConnectionOperation.h in Headers */,
 			);
@@ -1218,8 +1221,11 @@
 				4474211C1302B60A004D6E8A /* RMWMS.m in Sources */,
 				175701DF1323C2E900A5D314 /* NSUserDefaults+RouteMe.m in Sources */,
 				DDA3E85713B00D9E004D861C /* RMMapQuestOSMSource.m in Sources */,
+<<<<<<< HEAD
 				336D11BE1405632200B235EA /* RMAnnotationView.m in Sources */,
 				3374A90B1406110F008A5320 /* RMLocationMarker.m in Sources */,
+=======
+>>>>>>> upstream/master
 				DDCD58D41406F8A400F59E0D /* RMTileStreamSource.m in Sources */,
 				F56554F9146E002B00623AC9 /* RMURLConnectionOperation.m in Sources */,
 			);
