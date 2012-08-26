@@ -201,6 +201,7 @@ typedef struct {
 
 - (void)setRotation:(CGFloat)angle;
 
+- (void)performInitialSetup;
 
 //SNI Additions
 - (void)showAnnotationView:(RMMarker *)marker title:(NSString *)title subtitle:(NSString *)subtitle animated:(BOOL)animated;
