@@ -109,6 +109,10 @@
 		2BEC61310F8ACC21008FB858 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B8474BC00EB4019A006A0BC1 /* libsqlite3.dylib */; };
 		2BEC61320F8ACC24008FB858 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B83E65680E80E830001663B6 /* QuartzCore.framework */; };
 		2BEC61330F8ACC25008FB858 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
+		3339817615FEE321006B9933 /* RMMapBoxStreetsSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 3339817415FEE321006B9933 /* RMMapBoxStreetsSource.h */; };
+		3339817715FEE321006B9933 /* RMMapBoxStreetsSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 3339817515FEE321006B9933 /* RMMapBoxStreetsSource.m */; };
+		3339817B15FEE676006B9933 /* RMMapBoxTerrainSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 3339817915FEE676006B9933 /* RMMapBoxTerrainSource.h */; };
+		3339817C15FEE676006B9933 /* RMMapBoxTerrainSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 3339817A15FEE676006B9933 /* RMMapBoxTerrainSource.m */; };
 		336D11BD1405632200B235EA /* RMAnnotationView.h in Headers */ = {isa = PBXBuildFile; fileRef = 336D11BB1405632200B235EA /* RMAnnotationView.h */; };
 		336D11BE1405632200B235EA /* RMAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 336D11BC1405632200B235EA /* RMAnnotationView.m */; };
 		336DB8BB156D5FA700D70C6D /* RMMapQuestAerialSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 336DB8B9156D5FA700D70C6D /* RMMapQuestAerialSource.h */; };
@@ -298,6 +302,10 @@
 		2BF3078F0F8AC5C0007014EE /* RM Unit Tests.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "RM Unit Tests.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2BF307910F8AC5C0007014EE /* RM Unit Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "RM Unit Tests-Info.plist"; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* MapView_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapView_Prefix.pch; sourceTree = "<group>"; };
+		3339817415FEE321006B9933 /* RMMapBoxStreetsSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMMapBoxStreetsSource.h; sourceTree = "<group>"; };
+		3339817515FEE321006B9933 /* RMMapBoxStreetsSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RMMapBoxStreetsSource.m; sourceTree = "<group>"; };
+		3339817915FEE676006B9933 /* RMMapBoxTerrainSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMMapBoxTerrainSource.h; sourceTree = "<group>"; };
+		3339817A15FEE676006B9933 /* RMMapBoxTerrainSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RMMapBoxTerrainSource.m; sourceTree = "<group>"; };
 		336D11BB1405632200B235EA /* RMAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMAnnotationView.h; sourceTree = "<group>"; };
 		336D11BC1405632200B235EA /* RMAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RMAnnotationView.m; sourceTree = "<group>"; };
 		336DB8B9156D5FA700D70C6D /* RMMapQuestAerialSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMMapQuestAerialSource.h; sourceTree = "<group>"; };
@@ -690,6 +698,10 @@
 		B83E64EB0E80E73F001663B6 /* Tile Source */ = {
 			isa = PBXGroup;
 			children = (
+				3339817915FEE676006B9933 /* RMMapBoxTerrainSource.h */,
+				3339817A15FEE676006B9933 /* RMMapBoxTerrainSource.m */,
+				3339817415FEE321006B9933 /* RMMapBoxStreetsSource.h */,
+				3339817515FEE321006B9933 /* RMMapBoxStreetsSource.m */,
 				336DB8B9156D5FA700D70C6D /* RMMapQuestAerialSource.h */,
 				336DB8BA156D5FA700D70C6D /* RMMapQuestAerialSource.m */,
 				96FE8E340F72D01B00A11CF0 /* RMYahooMapSource.h */,
@@ -918,6 +930,8 @@
 				DDCD58D31406F8A400F59E0D /* RMTileStreamSource.h in Headers */,
 				F56554F8146E002B00623AC9 /* RMURLConnectionOperation.h in Headers */,
 				336DB8BB156D5FA700D70C6D /* RMMapQuestAerialSource.h in Headers */,
+				3339817615FEE321006B9933 /* RMMapBoxStreetsSource.h in Headers */,
+				3339817B15FEE676006B9933 /* RMMapBoxTerrainSource.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1226,6 +1240,8 @@
 				DDCD58D41406F8A400F59E0D /* RMTileStreamSource.m in Sources */,
 				F56554F9146E002B00623AC9 /* RMURLConnectionOperation.m in Sources */,
 				336DB8BC156D5FA700D70C6D /* RMMapQuestAerialSource.m in Sources */,
+				3339817715FEE321006B9933 /* RMMapBoxStreetsSource.m in Sources */,
+				3339817C15FEE676006B9933 /* RMMapBoxTerrainSource.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
