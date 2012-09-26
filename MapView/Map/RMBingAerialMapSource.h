@@ -10,7 +10,9 @@
 
 @interface RMBingAerialMapSource : RMAbstractMercatorWebSource <RMAbstractMercatorWebSource>
 
--(NSString*) quadKeyForTile: (RMTile) tile;
--(NSString*) urlForQuadKey: (NSString*) quadKey;
+@property (readwrite, copy) NSString *token;
+
+- (NSString *)quadKeyForTile: (RMTile) tile;
+- (NSString *)urlForQuadKey: (NSString*) quadKey;
 
 @end
