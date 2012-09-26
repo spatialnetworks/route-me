@@ -1,7 +1,7 @@
 //
-//  RMMapQuestOSMSource.m
+//  RMMapBoxStreetsSource.h
 //
-// Copyright (c) 2008-2011, Route-Me Contributors
+// Copyright (c) 2008-2009, Route-Me Contributors
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -25,48 +25,9 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#import "RMMapQuestAerialSource.h"
+#import "RMAbstractMercatorWebSource.h"
 
-@implementation RMMapQuestAerialSource
-
--(id) init
-{       
-	if(self = [super init]) 
-	{
-		[self setMaxZoom:18];
-		[self setMinZoom:1];
-	}
-	return self;
-} 
-
--(NSString*) tileURL: (RMTile) tile
-{
-	NSAssert4(((tile.zoom >= self.minZoom) && (tile.zoom <= self.maxZoom)),
-			  @"%@ tried to retrieve tile with zoomLevel %d, outside source's defined range %f to %f", 
-			  self, tile.zoom, self.minZoom, self.maxZoom);
-    return [NSString stringWithFormat:@"http://mtile04.mqcdn.com/tiles/1.0.0/vx/sat/%d/%d/%d.jpg", tile.zoom, tile.x, tile.y];
-}
-	
--(NSString*) uniqueTilecacheKey
-{
-	return @"MapQuestAerial";
-}
-
--(NSString *)shortName
-{
-	return @"MapQuest";
-}
--(NSString *)longDescription
-{
-	return @"Map tiles courtesy of MapQuest.";
-}
--(NSString *)shortAttribution
-{
-	return @"Tiles courtesy of MapQuest.";
-}
--(NSString *)longAttribution
-{
-	return @"Tiles courtesy of MapQuest.";
+@interface RMMapBoxStreetsSource : RMAbstractMercatorWebSource <RMAbstractMercatorWebSource> {
 }
 
 @end

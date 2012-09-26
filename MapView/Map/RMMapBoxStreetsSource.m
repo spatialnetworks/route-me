@@ -1,7 +1,7 @@
 //
-//  RMMapQuestOSMSource.m
+//  RMMapBoxStreetsSource.m
 //
-// Copyright (c) 2008-2011, Route-Me Contributors
+// Copyright (c) 2008-2009, Route-Me Contributors
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -25,48 +25,50 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#import "RMMapQuestAerialSource.h"
+#import "RMMapBoxStreetsSource.h"
 
-@implementation RMMapQuestAerialSource
+@implementation RMMapBoxStreetsSource
 
--(id) init
-{       
-	if(self = [super init]) 
-	{
-		[self setMaxZoom:18];
+- (id)init {
+	if (self = [super init]) {
+		[self setMaxZoom:17];
 		[self setMinZoom:1];
 	}
 	return self;
 } 
 
--(NSString*) tileURL: (RMTile) tile
+- (NSString *)tileURL:(RMTile)tile
 {
 	NSAssert4(((tile.zoom >= self.minZoom) && (tile.zoom <= self.maxZoom)),
 			  @"%@ tried to retrieve tile with zoomLevel %d, outside source's defined range %f to %f", 
 			  self, tile.zoom, self.minZoom, self.maxZoom);
-    return [NSString stringWithFormat:@"http://mtile04.mqcdn.com/tiles/1.0.0/vx/sat/%d/%d/%d.jpg", tile.zoom, tile.x, tile.y];
-}
-	
--(NSString*) uniqueTilecacheKey
-{
-	return @"MapQuestAerial";
+    
+	return [NSString stringWithFormat:@"http://a.tiles.mapbox.com/v3/mapbox.mapbox-streets/%d/%d/%d.png", tile.zoom, tile.x, tile.y];
 }
 
--(NSString *)shortName
+- (NSString *)uniqueTilecacheKey
 {
-	return @"MapQuest";
+	return @"MapBoxStreets";
 }
--(NSString *)longDescription
+
+- (NSString *)shortName
 {
-	return @"Map tiles courtesy of MapQuest.";
+	return @"MapBox Streets";
 }
--(NSString *)shortAttribution
+
+- (NSString *)longDescription
 {
-	return @"Tiles courtesy of MapQuest.";
+	return @"MapBox Streets";
 }
--(NSString *)longAttribution
+
+- (NSString *)shortAttribution
 {
-	return @"Tiles courtesy of MapQuest.";
+	return @"Tiles Courtesy of MapBox. Map data © OpenStreetMap CC-BY-SA";
+}
+
+- (NSString *)longAttribution
+{
+	return @"Tiles Courtesy of MapBox. Map data © OpenStreetMap, licensed under Creative Commons Share Alike By Attribution.";
 }
 
 @end
