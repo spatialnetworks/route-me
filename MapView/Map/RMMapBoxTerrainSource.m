@@ -43,7 +43,7 @@
 			  @"%@ tried to retrieve tile with zoomLevel %d, outside source's defined range %f to %f", 
 			  self, tile.zoom, self.minZoom, self.maxZoom);
     
-	return [NSString stringWithFormat:@"http://a.tiles.mapbox.com/v3/base.live-land-tr,base.live-landuse-tr,base.live-water,base.live-streets/%d/%d/%d.png", tile.zoom, tile.x, tile.y];
+	return [NSString stringWithFormat:@"http://a.tiles.mapbox.com/v3/spatialnetworks.map-4lwx4bw3/%d/%d/%d.png", tile.zoom, tile.x, tile.y];
 }
 
 - (NSString *)uniqueTilecacheKey
