@@ -63,8 +63,9 @@
 }
 -(NSString *)shortAttribution
 {
-	return @"© OpenStreetMap CC-BY-SA";
+	return @"Tiles © OpenStreetMap CC-BY-SA, www.openstreetmap.org/copyright";
 }
+
 -(NSString *)longAttribution
 {
 	return @"Map data © OpenStreetMap, licensed under Creative Commons Share Alike By Attribution.";
