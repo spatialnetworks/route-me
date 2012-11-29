@@ -31,7 +31,7 @@
 #import "RMURLConnectionOperation.h"
 
 static const NSUInteger kWebTileRetries = 30;
-static const NSUInteger kMaxConcurrentConnections = 5;
+static const NSUInteger kMaxConcurrentConnections = 10;
 
 extern NSString *RMWebTileImageErrorDomain;
 

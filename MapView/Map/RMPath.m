@@ -389,7 +389,7 @@
         CGContextSetFillColorWithColor(theContext, [fillColor CGColor]);
     }
 	
-	CGContextDrawPath(theContext, (lineColor && fillColor ? kCGPathFillStroke : (lineColor ? kCGPathStroke : kCGPathFill)));
+	CGContextDrawPath(theContext, (lineColor && fillColor ? kCGPathEOFillStroke : (lineColor ? kCGPathStroke : kCGPathEOFill)));
 }
 
 - (CGPathRef)CGPath {

@@ -1,4 +1,5 @@
 #import <Foundation/Foundation.h>
+//#import "spatialite.h"
 #import "sqlite3.h"
 #import "FMResultSet.h"
 
