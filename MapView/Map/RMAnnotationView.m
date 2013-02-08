@@ -24,7 +24,6 @@
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        // Initialization code
         self.accessoryButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
         self.accessoryButton.frame = CGRectZero;
         
